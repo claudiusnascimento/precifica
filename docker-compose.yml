@@ -1,0 +1,85 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: precifica_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - precifica_network
+    depends_on:
+      - db
+      - redis
+
+  webserver:
+    image: nginx:alpine
+    container_name: precifica_webserver
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - precifica_network
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: precifica_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: angel
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/dbdata:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - precifica_network
+
+  composer:
+    image: composer:latest
+    container_name: precifica_composer
+    restart: no
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - precifica_network
+    command: composer install --ignore-platform-reqs
+
+  artisan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: precifica_artisan
+    restart: no
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - precifica_network
+    command: php artisan optimize:clear
+
+  redis:
+    image: redis:alpine
+    container_name: precifica_redis
+    restart: unless-stopped
+    volumes:
+      - ./docker/redis/redisdata:/data
+    networks:
+      - precifica_network
+
+volumes:
+  dbdata:
+  redisdata:
+
+networks:
+  precifica_network:
+    driver: bridge
