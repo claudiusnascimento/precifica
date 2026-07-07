@@ -67,6 +67,19 @@ services:
       - precifica_network
     command: php artisan optimize:clear
 
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: precifica_test
+    restart: no
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - precifica_network
+    command: php artisan test
+
   redis:
     image: redis:alpine
     container_name: precifica_redis
