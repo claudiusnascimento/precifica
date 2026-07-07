@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import ThemeSelector from '@/Components/ThemeSelector.vue';
 </script>
 
 <template>
@@ -23,10 +24,11 @@ import { RouterLink } from 'vue-router';
         </aside>
 
         <div class="flex flex-1 flex-col">
-            <header class="flex h-16 items-center border-b border-border px-6">
+            <header class="flex h-16 items-center justify-between gap-4 border-b border-border px-6">
                 <h1 class="text-sm font-medium text-muted-foreground">
                     Gestão de precificação e custos
                 </h1>
+                <ThemeSelector />
             </header>
 
             <main class="flex-1 overflow-y-auto p-6">
