@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { storeToRefs } from 'pinia';
 import { ChevronDown, Moon, Palette, Sun } from 'lucide-vue-next';
+import {
+    activePresetLabel,
+    currentMode,
+    currentPreset,
+    onModeChange,
+    onPresetChange,
+    presets,
+} from '@/Composables/useThemeSelector';
 import { Button } from '@/Components/ui/button';
 import {
     DropdownMenu,
@@ -12,23 +18,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/Components/ui/dropdown-menu';
-import { useThemeStore } from '@/Stores/theme';
-import type { ThemeMode } from '@/types/theme';
-
-const themeStore = useThemeStore();
-const { currentMode, currentPreset, presets } = storeToRefs(themeStore);
-
-const activePresetLabel = computed(
-    () => presets.value.find((preset) => preset.id === currentPreset.value)?.label ?? 'Tema',
-);
-
-function onPresetChange(presetId: string): void {
-    themeStore.setPreset(presetId);
-}
-
-function onModeChange(mode: string): void {
-    themeStore.setMode(mode as ThemeMode);
-}
 </script>
 
 <template>
