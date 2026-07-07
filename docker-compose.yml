@@ -33,7 +33,7 @@ services:
     container_name: precifica_mysql
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: angel
+      MYSQL_DATABASE: precifica
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
