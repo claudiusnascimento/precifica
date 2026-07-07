@@ -27,5 +27,5 @@ Homestead.yaml
 Thumbs.db
 
 docker/mysql/dbdata/*
-docker/redis/data/*
+docker/redis/redisdata/*
 _content_helper/
