@@ -12,6 +12,11 @@
         "baseUrl": ".",
         "paths": {
             "@/*": ["./resources/js/*"]
-        }
+        },
+        "plugins": [
+            {
+                "name": "@vue/typescript-plugin"
+            }
+        ]
     }
 }

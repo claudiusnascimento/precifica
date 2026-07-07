@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import ThemeSelector from '@/Components/ThemeSelector.vue';
+import { Button } from '@/Components/ui/button';
+import { useAuthStore } from '@/Stores/auth';
 </script>
 
 <template>
@@ -28,7 +30,16 @@ import ThemeSelector from '@/Components/ThemeSelector.vue';
                 <h1 class="text-sm font-medium text-muted-foreground">
                     Gestão de precificação e custos
                 </h1>
-                <ThemeSelector />
+                <div class="flex items-center gap-2">
+                    <ThemeSelector />
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        @click="useAuthStore().logout()"
+                    >
+                        Sair
+                    </Button>
+                </div>
             </header>
 
             <main class="flex-1 overflow-y-auto p-6">
