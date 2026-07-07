@@ -28,3 +28,4 @@ Thumbs.db
 
 docker/mysql/dbdata/*
 docker/redis/data/*
+_content_helper/
