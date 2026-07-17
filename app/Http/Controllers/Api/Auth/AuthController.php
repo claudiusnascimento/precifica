@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Actions\User\LoginUserAction;
+use App\Actions\User\RegisterUserAction;
 use App\Actions\User\ResetPasswordAction;
 use App\Actions\User\SendResetLinkAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
@@ -28,6 +30,20 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Login realizado com sucesso.',
+            'user' => new UserResource($user),
+        ]);
+    }
+
+    public function register(RegisterRequest $request, RegisterUserAction $registerUserAction): JsonResponse
+    {
+        $user = $registerUserAction->execute(
+            name: $request->string('name')->toString(),
+            email: $request->string('email')->toString(),
+            password: $request->string('password')->toString(),
+        );
+
+        return response()->json([
+            'message' => 'Cadastro realizado com sucesso.',
             'user' => new UserResource($user),
         ]);
     }

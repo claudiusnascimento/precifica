@@ -5,6 +5,7 @@ import type {
     AuthUser,
     ForgotPasswordPayload,
     LoginPayload,
+    RegisterPayload,
     MessageResponse,
     ResetPasswordPayload,
     UserResponse,
@@ -46,6 +47,16 @@ export const useAuthStore = defineStore('auth', {
             await ensureCsrfCookie();
 
             const { data } = await api.post<AuthResponse>('/login', payload);
+            this.user = data.user;
+            this.initialized = true;
+
+            await router.push({ name: 'dashboard' });
+        },
+
+        async register(payload: RegisterPayload): Promise<void> {
+            await ensureCsrfCookie();
+
+            const { data } = await api.post<AuthResponse>('/register', payload);
             this.user = data.user;
             this.initialized = true;
 
