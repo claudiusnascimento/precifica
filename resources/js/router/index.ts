@@ -28,6 +28,15 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
+        path: '/register',
+        name: 'register',
+        component: () => import('@/Pages/Auth/Register.vue'),
+        meta: {
+            title: 'Cadastro',
+            guest: true,
+        },
+    },
+    {
         path: '/forgot-password',
         name: 'forgot-password',
         component: () => import('@/Pages/Auth/ForgotPassword.vue'),
@@ -81,7 +90,7 @@ router.beforeEach(async (to) => {
         return { name: 'login', query: { redirect: to.fullPath } };
     }
 
-    if (to.meta.guest && authStore.isAuthenticated && to.name === 'login') {
+    if (to.meta.guest && authStore.isAuthenticated && (to.name === 'login' || to.name === 'register')) {
         return { name: 'dashboard' };
     }
 

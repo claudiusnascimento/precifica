@@ -17,9 +17,10 @@ import type { AxiosError } from 'axios';
 
 const authStore = useAuthStore();
 
+const name = ref('');
 const email = ref('');
 const password = ref('');
-const remember = ref(false);
+const passwordConfirmation = ref('');
 const errorMessage = ref('');
 const isSubmitting = ref(false);
 
@@ -28,17 +29,21 @@ async function handleSubmit(): Promise<void> {
     isSubmitting.value = true;
 
     try {
-        await authStore.login({
+        await authStore.register({
+            name: name.value,
             email: email.value,
             password: password.value,
-            remember: remember.value,
+            password_confirmation: passwordConfirmation.value,
         });
     } catch (error) {
         const axiosError = error as AxiosError<{ message?: string; errors?: Record<string, string[]> }>;
+        const errors = axiosError.response?.data?.errors;
 
-        errorMessage.value = axiosError.response?.data?.errors?.email?.[0]
+        errorMessage.value = errors?.email?.[0]
+            ?? errors?.password?.[0]
+            ?? errors?.name?.[0]
             ?? axiosError.response?.data?.message
-            ?? 'Não foi possível realizar o login.';
+            ?? 'Não foi possível realizar o cadastro.';
     } finally {
         isSubmitting.value = false;
     }
@@ -49,17 +54,28 @@ async function handleSubmit(): Promise<void> {
     <GuestLayout>
         <Card class="w-full text-left">
             <CardHeader>
-                <CardTitle>Entrar</CardTitle>
+                <CardTitle>Criar conta</CardTitle>
                 <CardDescription>
-                    Acesse sua conta para gerenciar precificação e custos.
+                    Cadastre-se para começar a precificar suas receitas com clareza.
                 </CardDescription>
             </CardHeader>
             <CardContent>
                 <form
-                    class="space-y-4"
+                    class="flex flex-col gap-4"
                     @submit.prevent="handleSubmit"
                 >
-                    <div class="space-y-2">
+                    <div class="flex flex-col gap-2">
+                        <Label for="name">Nome</Label>
+                        <Input
+                            id="name"
+                            v-model="name"
+                            type="text"
+                            autocomplete="name"
+                            required
+                        />
+                    </div>
+
+                    <div class="flex flex-col gap-2">
                         <Label for="email">E-mail</Label>
                         <Input
                             id="email"
@@ -70,25 +86,26 @@ async function handleSubmit(): Promise<void> {
                         />
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="flex flex-col gap-2">
                         <Label for="password">Senha</Label>
                         <Input
                             id="password"
                             v-model="password"
                             type="password"
-                            autocomplete="current-password"
+                            autocomplete="new-password"
                             required
                         />
                     </div>
 
-                    <div class="flex items-center gap-2">
-                        <input
-                            id="remember"
-                            v-model="remember"
-                            type="checkbox"
-                            class="size-4 rounded border border-input"
-                        >
-                        <Label for="remember">Lembrar-me</Label>
+                    <div class="flex flex-col gap-2">
+                        <Label for="password_confirmation">Confirmar senha</Label>
+                        <Input
+                            id="password_confirmation"
+                            v-model="passwordConfirmation"
+                            type="password"
+                            autocomplete="new-password"
+                            required
+                        />
                     </div>
 
                     <p
@@ -103,25 +120,16 @@ async function handleSubmit(): Promise<void> {
                         class="w-full"
                         :disabled="isSubmitting"
                     >
-                        {{ isSubmitting ? 'Entrando...' : 'Entrar' }}
+                        {{ isSubmitting ? 'Cadastrando...' : 'Cadastrar' }}
                     </Button>
 
                     <p class="text-center text-sm text-muted-foreground">
+                        Já tem conta?
                         <RouterLink
-                            :to="{ name: 'forgot-password' }"
+                            :to="{ name: 'login' }"
                             class="underline underline-offset-4 hover:text-foreground"
                         >
-                            Esqueceu sua senha?
-                        </RouterLink>
-                    </p>
-
-                    <p class="text-center text-sm text-muted-foreground">
-                        Não tem conta?
-                        <RouterLink
-                            :to="{ name: 'register' }"
-                            class="underline underline-offset-4 hover:text-foreground"
-                        >
-                            Cadastrar
+                            Entrar
                         </RouterLink>
                     </p>
                 </form>
