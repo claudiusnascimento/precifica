@@ -55,18 +55,45 @@ const routes: RouteRecordRaw[] = [
         },
     },
     {
-        path: '/dashboard',
+        path: '/',
         component: () => import('@/Layouts/AppLayout.vue'),
         meta: {
             requiresAuth: true,
         },
         children: [
             {
-                path: '',
+                path: 'dashboard',
                 name: 'dashboard',
                 component: () => import('@/Pages/Dashboard.vue'),
                 meta: {
                     title: 'Dashboard',
+                    requiresAuth: true,
+                },
+            },
+            {
+                path: 'ingredientes',
+                name: 'ingredients.index',
+                component: () => import('@/Pages/Ingredients/Index.vue'),
+                meta: {
+                    title: 'Ingredientes',
+                    requiresAuth: true,
+                },
+            },
+            {
+                path: 'ingredientes/novo',
+                name: 'ingredients.create',
+                component: () => import('@/Pages/Ingredients/Form.vue'),
+                meta: {
+                    title: 'Novo ingrediente',
+                    requiresAuth: true,
+                },
+            },
+            {
+                path: 'ingredientes/:id/editar',
+                name: 'ingredients.edit',
+                component: () => import('@/Pages/Ingredients/Form.vue'),
+                meta: {
+                    title: 'Editar ingrediente',
                     requiresAuth: true,
                 },
             },

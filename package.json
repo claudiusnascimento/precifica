@@ -4,15 +4,22 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "test:js": "vitest run",
+        "test:e2e": "playwright test"
     },
     "devDependencies": {
+        "@playwright/test": "^1.61.1",
         "@tailwindcss/vite": "^4.0.0",
         "@types/node": "^26.1.0",
         "@vitejs/plugin-vue": "^6.0.7",
+        "@vue/test-utils": "^2.4.11",
         "@vue/tsconfig": "^0.9.1",
         "@vue/typescript-plugin": "^3.3.6",
         "concurrently": "^9.0.1",
+        "fontaine": "^0.8.0",
+        "happy-dom": "^20.10.6",
+        "jsdom": "^29.1.1",
         "laravel-vite-plugin": "^3.1",
         "shadcn-vue": "^2.7.4",
         "tailwindcss": "^4.0.0",
@@ -20,10 +27,12 @@
         "typescript": "^5.9.3",
         "vite": "^8.0.0",
         "vite-tsconfig-paths": "^6.1.1",
+        "vitest": "^4.1.10",
         "vue-tsc": "^3.3.6"
     },
     "dependencies": {
-        "@lucide/vue": "^1.23.0",
+        "@lucide/vue": "^1.24.0",
+        "@tanstack/vue-table": "^8.21.3",
         "@vueuse/core": "^14.3.0",
         "axios": "^1.18.1",
         "class-variance-authority": "^0.7.1",
