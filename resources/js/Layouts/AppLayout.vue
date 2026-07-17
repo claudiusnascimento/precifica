@@ -22,6 +22,13 @@ import { useAuthStore } from '@/Stores/auth';
                 >
                     Dashboard
                 </RouterLink>
+                <RouterLink
+                    :to="{ name: 'ingredients.index' }"
+                    class="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                    active-class="bg-accent text-accent-foreground"
+                >
+                    Ingredientes
+                </RouterLink>
             </nav>
         </aside>
 

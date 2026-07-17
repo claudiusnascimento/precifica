@@ -16,7 +16,10 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
-    ->in('Feature');
+    ->in('Feature', 'Unit/Actions');
+
+pest()->extend(TestCase::class)
+    ->in('Unit/Enums');
 
 /*
 |--------------------------------------------------------------------------
