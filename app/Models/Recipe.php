@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\IngredientUnit;
-use Database\Factories\IngredientFactory;
+use Database\Factories\RecipeFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['user_id', 'name', 'unit', 'price'])]
-class Ingredient extends Model
+#[Fillable(['user_id', 'name', 'yield_quantity', 'yield_unit'])]
+class Recipe extends Model
 {
-    /** @use HasFactory<IngredientFactory> */
+    /** @use HasFactory<RecipeFactory> */
     use HasFactory, SoftDeletes;
 
     /**
@@ -23,8 +23,8 @@ class Ingredient extends Model
     protected function casts(): array
     {
         return [
-            'unit' => IngredientUnit::class,
-            'price' => 'decimal:4',
+            'yield_unit' => IngredientUnit::class,
+            'yield_quantity' => 'decimal:4',
         ];
     }
 
@@ -37,11 +37,11 @@ class Ingredient extends Model
     }
 
     /**
-     * @return BelongsToMany<Recipe, $this, RecipeIngredient>
+     * @return BelongsToMany<Ingredient, $this, RecipeIngredient>
      */
-    public function recipes(): BelongsToMany
+    public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany(Recipe::class)
+        return $this->belongsToMany(Ingredient::class)
             ->using(RecipeIngredient::class)
             ->withPivot('quantity')
             ->withTimestamps();

@@ -97,6 +97,33 @@ const routes: RouteRecordRaw[] = [
                     requiresAuth: true,
                 },
             },
+            {
+                path: 'receitas',
+                name: 'recipes.index',
+                component: () => import('@/Pages/Recipes/Index.vue'),
+                meta: {
+                    title: 'Receitas',
+                    requiresAuth: true,
+                },
+            },
+            {
+                path: 'receitas/novo',
+                name: 'recipes.create',
+                component: () => import('@/Pages/Recipes/Form.vue'),
+                meta: {
+                    title: 'Nova receita',
+                    requiresAuth: true,
+                },
+            },
+            {
+                path: 'receitas/:id/editar',
+                name: 'recipes.edit',
+                component: () => import('@/Pages/Recipes/Form.vue'),
+                meta: {
+                    title: 'Editar receita',
+                    requiresAuth: true,
+                },
+            },
         ],
     },
 ];
