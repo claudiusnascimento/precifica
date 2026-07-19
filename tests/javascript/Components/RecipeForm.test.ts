@@ -55,7 +55,9 @@ describe('RecipeForm', () => {
 
         expect(wrapper.findAll('.recipe-ingredient-row')).toHaveLength(0);
 
-        await wrapper.get('button').trigger('click');
+        const addButton = wrapper.findAll('button').find((button) => button.text().includes('Adicionar'));
+        expect(addButton).toBeTruthy();
+        await addButton!.trigger('click');
         expect(wrapper.findAll('.recipe-ingredient-row')).toHaveLength(1);
 
         await wrapper.get('[aria-label="Remover ingrediente"]').trigger('click');

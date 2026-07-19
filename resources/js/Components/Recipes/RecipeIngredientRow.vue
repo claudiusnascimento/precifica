@@ -82,7 +82,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="recipe-ingredient-row flex flex-col gap-3 rounded-lg border border-border p-4 sm:flex-row sm:items-end">
+    <div class="recipe-ingredient-row flex flex-col gap-3 rounded-xl border border-border/80 bg-muted/40 p-4 sm:flex-row sm:items-end">
         <div class="flex min-w-0 flex-1 flex-col gap-2">
             <Label :for="`recipe-ingredient-${index}`">Ingrediente</Label>
             <Select
@@ -91,10 +91,10 @@ onMounted(async () => {
             >
                 <SelectTrigger
                     :id="`recipe-ingredient-${index}`"
-                    class="w-full"
+                    class="w-full bg-card"
                     :aria-invalid="Boolean(idError)"
                 >
-                    <SelectValue placeholder="Selecione o ingrediente" />
+                    <SelectValue placeholder="Selecione..." />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
@@ -116,10 +116,11 @@ onMounted(async () => {
             </p>
         </div>
 
-        <div class="flex w-full flex-col gap-2 sm:w-36">
+        <div class="flex w-full flex-col gap-2 sm:w-28">
             <Label :for="`recipe-quantity-${index}`">Quantidade</Label>
             <Input
                 :id="`recipe-quantity-${index}`"
+                class="bg-card"
                 type="number"
                 min="0.0001"
                 step="0.0001"
@@ -136,7 +137,7 @@ onMounted(async () => {
             </p>
         </div>
 
-        <div class="flex w-full flex-col gap-2 sm:w-44">
+        <div class="flex w-full flex-col gap-2 sm:w-40">
             <Label :for="`recipe-unit-${index}`">Unidade</Label>
             <Select
                 :model-value="selectedUnit"
@@ -144,9 +145,9 @@ onMounted(async () => {
             >
                 <SelectTrigger
                     :id="`recipe-unit-${index}`"
-                    class="w-full"
+                    class="w-full bg-card"
                 >
-                    <SelectValue placeholder="Unidade do ingrediente" />
+                    <SelectValue placeholder="Unidade" />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
@@ -162,14 +163,17 @@ onMounted(async () => {
             </Select>
         </div>
 
-        <Button
-            type="button"
-            variant="destructive"
-            size="icon"
-            aria-label="Remover ingrediente"
-            @click="removeRow"
-        >
-            <Trash2 />
-        </Button>
+        <div class="flex items-end pb-0.5">
+            <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                class="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                aria-label="Remover ingrediente"
+                @click="removeRow"
+            >
+                <Trash2 />
+            </Button>
+        </div>
     </div>
 </template>

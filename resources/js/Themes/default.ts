@@ -1,8 +1,8 @@
 import type { ThemePreset } from '@/types/theme';
 
 export const defaultTheme: ThemePreset = {
-    id: 'default-theme',
-    label: 'Default Theme',
+    id: 'megengue',
+    label: 'Megengue',
     variables: {
         light: {
             '--background': 'oklch(1 0 0)',

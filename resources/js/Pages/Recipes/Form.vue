@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
+import { ArrowLeft } from 'lucide-vue-next';
 import RecipeForm from '@/Components/Recipes/RecipeForm.vue';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/Components/ui/card';
+import { Button } from '@/Components/ui/button';
 import { useRecipeStore } from '@/Stores/recipe';
 import type { RecipeIngredientPayload, RecipePayload } from '@/types/recipe';
 
@@ -75,48 +70,43 @@ async function handleSubmit(payload: RecipePayload): Promise<void> {
 </script>
 
 <template>
-    <div class="mx-auto flex w-full max-w-3xl flex-col gap-6">
-        <div class="flex items-center justify-between gap-4">
+    <div class="mx-auto flex w-full max-w-4xl flex-col gap-8">
+        <div class="flex items-start justify-between gap-4">
             <div class="flex flex-col gap-1">
-                <h2 class="text-2xl font-semibold tracking-tight text-foreground">
-                    {{ isEditing ? 'Editar receita' : 'Nova receita' }}
+                <h2 class="font-serif text-3xl font-semibold tracking-tight text-foreground">
+                    {{ isEditing ? 'Editar receita' : 'Nova Receita' }}
                 </h2>
                 <p class="text-sm text-muted-foreground">
-                    Informe o rendimento e, se quiser, os ingredientes da receita.
+                    Configure os ingredientes e custos
                 </p>
             </div>
 
-            <RouterLink
-                :to="{ name: 'recipes.index' }"
-                class="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
+            <Button
+                as-child
+                variant="outline"
+                size="sm"
+                class="bg-card shadow-xs"
             >
-                Voltar
-            </RouterLink>
+                <RouterLink :to="{ name: 'recipes.index' }">
+                    <ArrowLeft data-icon="inline-start" />
+                    Voltar
+                </RouterLink>
+            </Button>
         </div>
 
-        <Card>
-            <CardHeader>
-                <CardTitle>{{ isEditing ? 'Atualizar dados' : 'Dados da receita' }}</CardTitle>
-                <CardDescription>
-                    A unidade de cada ingrediente vem do cadastro do próprio insumo.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p
-                    v-if="recipeStore.error && Object.keys(recipeStore.fieldErrors).length === 0"
-                    class="mb-4 text-sm text-destructive"
-                >
-                    {{ recipeStore.error }}
-                </p>
+        <p
+            v-if="recipeStore.error && Object.keys(recipeStore.fieldErrors).length === 0"
+            class="text-sm text-destructive"
+        >
+            {{ recipeStore.error }}
+        </p>
 
-                <RecipeForm
-                    :initial="initial"
-                    :submitting="recipeStore.saving"
-                    :field-errors="recipeStore.fieldErrors"
-                    :submit-label="isEditing ? 'Atualizar' : 'Criar'"
-                    @submit="handleSubmit"
-                />
-            </CardContent>
-        </Card>
+        <RecipeForm
+            :initial="initial"
+            :submitting="recipeStore.saving"
+            :field-errors="recipeStore.fieldErrors"
+            :submit-label="isEditing ? 'Atualizar' : 'Criar'"
+            @submit="handleSubmit"
+        />
     </div>
 </template>

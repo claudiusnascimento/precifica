@@ -1,16 +1,14 @@
 import type { ThemePreset } from '@/types/theme';
-import { customOrangeTheme } from '@/Themes/custom-orange';
 import { defaultTheme } from '@/Themes/default';
-import { zincTheme } from '@/Themes/zinc';
+import { preciFacilTheme } from '@/Themes/preci-facil';
 
 export const themePresets: Record<string, ThemePreset> = {
+    [preciFacilTheme.id]: preciFacilTheme,
     [defaultTheme.id]: defaultTheme,
-    [zincTheme.id]: zincTheme,
-    [customOrangeTheme.id]: customOrangeTheme,
 };
 
 export const themePresetList: ThemePreset[] = Object.values(themePresets);
 
-export const defaultThemePresetId = defaultTheme.id;
+export const defaultThemePresetId = preciFacilTheme.id;
 
-export { customOrangeTheme, defaultTheme, zincTheme };
+export { defaultTheme, preciFacilTheme };

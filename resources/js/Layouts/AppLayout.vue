@@ -7,9 +7,9 @@ import { useAuthStore } from '@/Stores/auth';
 
 <template>
     <div class="flex min-h-screen bg-background">
-        <aside class="flex w-64 flex-col border-r border-border bg-card">
-            <div class="flex h-16 items-center border-b border-border px-6">
-                <span class="text-lg font-semibold tracking-tight text-foreground">
+        <aside class="flex w-64 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
+            <div class="flex h-16 items-center border-b border-sidebar-border px-6">
+                <span class="text-lg font-semibold tracking-tight text-sidebar-foreground">
                     Precifica
                 </span>
             </div>
@@ -17,22 +17,22 @@ import { useAuthStore } from '@/Stores/auth';
             <nav class="flex flex-1 flex-col gap-1 p-4">
                 <RouterLink
                     :to="{ name: 'dashboard' }"
-                    class="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                    active-class="bg-accent text-accent-foreground"
+                    class="rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    active-class="bg-sidebar-accent text-sidebar-accent-foreground"
                 >
                     Dashboard
                 </RouterLink>
                 <RouterLink
                     :to="{ name: 'ingredients.index' }"
-                    class="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                    active-class="bg-accent text-accent-foreground"
+                    class="rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    active-class="bg-sidebar-accent text-sidebar-accent-foreground"
                 >
                     Ingredientes
                 </RouterLink>
                 <RouterLink
                     :to="{ name: 'recipes.index' }"
-                    class="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-                    active-class="bg-accent text-accent-foreground"
+                    class="rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground/70 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    active-class="bg-sidebar-accent text-sidebar-accent-foreground"
                 >
                     Receitas
                 </RouterLink>
