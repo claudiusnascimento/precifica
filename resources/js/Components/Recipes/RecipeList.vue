@@ -4,7 +4,6 @@ import { RouterLink } from 'vue-router';
 import { Pencil, Trash2 } from 'lucide-vue-next';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -137,14 +136,12 @@ function onDeleteDialogOpenChange(open: boolean): void {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction as-child>
-                        <Button
-                            variant="destructive"
-                            @click="handleConfirmDelete"
-                        >
-                            Excluir
-                        </Button>
-                    </AlertDialogAction>
+                    <Button
+                        variant="destructive"
+                        @click="handleConfirmDelete"
+                    >
+                        Excluir
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

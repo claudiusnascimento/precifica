@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { Pencil, Trash2 } from 'lucide-vue-next';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -13,17 +12,9 @@ import {
     AlertDialogTitle,
 } from '@/Components/ui/alert-dialog';
 import { Button } from '@/Components/ui/button';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/Components/ui/table';
 import type { Ingredient } from '@/types/ingredient';
 
-defineProps<{
+const props = defineProps<{
     items: Ingredient[];
     loading?: boolean;
 }>();
@@ -33,6 +24,10 @@ const emit = defineEmits<{
 }>();
 
 const pendingDelete = ref<Ingredient | null>(null);
+
+const sortedItems = computed(() =>
+    [...props.items].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR')),
+);
 
 function formatPrice(value: string): string {
     return Number(value).toLocaleString('pt-BR', {
@@ -73,50 +68,42 @@ function handleConfirmDelete(): void {
 
         <div
             v-else
-            class="rounded-lg border border-border"
+            class="grid grid-cols-1 gap-4 md:grid-cols-2"
         >
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Nome</TableHead>
-                        <TableHead>Unidade</TableHead>
-                        <TableHead>Preço</TableHead>
-                        <TableHead class="text-right">Ações</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    <TableRow
-                        v-for="item in items"
-                        :key="item.id"
+            <div
+                v-for="item in sortedItems"
+                :key="item.id"
+                class="flex items-start justify-between gap-4 rounded-lg border border-border bg-card p-4"
+            >
+                <div class="flex flex-col gap-1">
+                    <span class="font-semibold text-card-foreground">{{ item.name }}</span>
+                    <span class="text-sm text-muted-foreground">
+                        {{ formatPrice(item.price) }} / {{ item.unit_label }}
+                    </span>
+                </div>
+
+                <div class="flex shrink-0 items-center gap-1">
+                    <Button
+                        as-child
+                        size="icon"
+                        variant="ghost"
+                        aria-label="Editar"
                     >
-                        <TableCell class="font-medium">{{ item.name }}</TableCell>
-                        <TableCell>{{ item.unit_label }}</TableCell>
-                        <TableCell>{{ formatPrice(item.price) }}</TableCell>
-                        <TableCell>
-                            <div class="flex justify-end gap-2">
-                                <Button
-                                    as-child
-                                    size="sm"
-                                    variant="outline"
-                                >
-                                    <RouterLink :to="{ name: 'ingredients.edit', params: { id: item.id } }">
-                                        <Pencil data-icon="inline-start" />
-                                        Editar
-                                    </RouterLink>
-                                </Button>
-                                <Button
-                                    size="sm"
-                                    variant="destructive"
-                                    @click="confirmDelete(item)"
-                                >
-                                    <Trash2 data-icon="inline-start" />
-                                    Excluir
-                                </Button>
-                            </div>
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+                        <RouterLink :to="{ name: 'ingredients.edit', params: { id: item.id } }">
+                            <Pencil />
+                        </RouterLink>
+                    </Button>
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        class="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        aria-label="Excluir"
+                        @click="confirmDelete(item)"
+                    >
+                        <Trash2 />
+                    </Button>
+                </div>
+            </div>
         </div>
 
         <AlertDialog
@@ -134,14 +121,12 @@ function handleConfirmDelete(): void {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction as-child>
-                        <Button
-                            variant="destructive"
-                            @click="handleConfirmDelete"
-                        >
-                            Excluir
-                        </Button>
-                    </AlertDialogAction>
+                    <Button
+                        variant="destructive"
+                        @click="handleConfirmDelete"
+                    >
+                        Excluir
+                    </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

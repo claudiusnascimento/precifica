@@ -39,7 +39,7 @@ test.describe('Ingredients E2E', () => {
     test('login via register → create ingredient → appears in list', async ({ page }) => {
         await registerAndGoToIngredients(page);
         await createIngredient(page, 'Farinha E2E', 'Grama', '0.008');
-        await expect(page.getByRole('cell', { name: 'Farinha E2E' })).toBeVisible();
+        await expect(page.getByText('Farinha E2E', { exact: true })).toBeVisible();
     });
 
     test('edit ingredient reflects change', async ({ page }) => {
@@ -53,7 +53,7 @@ test.describe('Ingredients E2E', () => {
         await page.getByRole('button', { name: 'Atualizar' }).click();
         await page.waitForURL(/\/ingredientes$/);
 
-        await expect(page.getByRole('cell', { name: 'Ovo Caipira E2E' })).toBeVisible();
+        await expect(page.getByText('Ovo Caipira E2E', { exact: true })).toBeVisible();
     });
 
     test('delete ingredient removes from list', async ({ page }) => {
@@ -63,7 +63,7 @@ test.describe('Ingredients E2E', () => {
         await page.getByRole('button', { name: 'Excluir' }).first().click();
         await page.getByRole('alertdialog').getByRole('button', { name: 'Excluir' }).click();
 
-        await expect(page.getByRole('cell', { name: 'Açúcar E2E' })).toHaveCount(0);
+        await expect(page.getByText('Açúcar E2E', { exact: true })).toHaveCount(0);
     });
 
     test('duplicate name shows validation error', async ({ page }) => {
