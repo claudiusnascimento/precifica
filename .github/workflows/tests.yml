@@ -13,6 +13,7 @@ concurrency:
 
 env:
   PHP_VERSION: '8.3'
+  NODE_VERSION: '22'
 
 jobs:
   php-tests:
@@ -51,7 +52,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
       - name: Install npm dependencies
@@ -77,7 +78,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.nvmrc'
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
       - name: Copy .env
