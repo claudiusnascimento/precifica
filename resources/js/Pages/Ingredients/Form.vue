@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter, RouterLink } from 'vue-router';
+import { ArrowLeft } from 'lucide-vue-next';
 import IngredientForm from '@/Components/Ingredients/IngredientForm.vue';
+import { Button } from '@/Components/ui/button';
 import {
     Card,
     CardContent,
@@ -22,7 +24,19 @@ const ingredientId = computed(() => {
     return typeof id === 'string' ? Number(id) : null;
 });
 
-const isEditing = computed(() => ingredientId.value !== null && !Number.isNaN(ingredientId.value));
+const isEditing = computed(
+    () => ingredientId.value !== null && !Number.isNaN(ingredientId.value),
+);
+
+const pageTitle = computed(() =>
+    isEditing.value ? 'Editar ingrediente' : 'Novo ingrediente',
+);
+
+const cardTitle = computed(() =>
+    isEditing.value ? 'Atualizar dados' : 'Dados do ingrediente',
+);
+
+const submitLabel = computed(() => (isEditing.value ? 'Atualizar' : 'Criar'));
 
 const initial = ref<IngredientPayload>({
     name: '',
@@ -64,28 +78,33 @@ async function handleSubmit(payload: IngredientPayload): Promise<void> {
 </script>
 
 <template>
-    <div class="mx-auto flex w-full max-w-xl flex-col gap-6">
-        <div class="flex items-center justify-between gap-4">
+    <div class="mx-auto flex w-full max-w-6xl flex-col gap-6">
+        <div class="flex items-start justify-between gap-4">
             <div class="flex flex-col gap-1">
                 <h2 class="text-2xl font-semibold tracking-tight text-foreground">
-                    {{ isEditing ? 'Editar ingrediente' : 'Novo ingrediente' }}
+                    {{ pageTitle }}
                 </h2>
                 <p class="text-sm text-muted-foreground">
                     Informe o nome, a unidade de medida e o preço por unidade.
                 </p>
             </div>
 
-            <RouterLink
-                :to="{ name: 'ingredients.index' }"
-                class="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
+            <Button
+                as-child
+                variant="outline"
+                size="sm"
+                class="bg-card shadow-xs"
             >
-                Voltar
-            </RouterLink>
+                <RouterLink :to="{ name: 'ingredients.index' }">
+                    <ArrowLeft data-icon="inline-start" />
+                    Voltar
+                </RouterLink>
+            </Button>
         </div>
 
         <Card>
             <CardHeader>
-                <CardTitle>{{ isEditing ? 'Atualizar dados' : 'Dados do ingrediente' }}</CardTitle>
+                <CardTitle>{{ cardTitle }}</CardTitle>
                 <CardDescription>
                     O preço deve corresponder a 1 unidade da medida escolhida.
                 </CardDescription>
@@ -102,7 +121,7 @@ async function handleSubmit(payload: IngredientPayload): Promise<void> {
                     :initial="initial"
                     :submitting="ingredientStore.saving"
                     :field-errors="ingredientStore.fieldErrors"
-                    :submit-label="isEditing ? 'Atualizar' : 'Criar'"
+                    :submit-label="submitLabel"
                     @submit="handleSubmit"
                 />
             </CardContent>
